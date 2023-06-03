@@ -1,18 +1,28 @@
+import os
 import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
+from dotenv import load_dotenv
 
-from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
 from tgbot.handlers.admin import register_admin
 from tgbot.handlers.echo import register_echo
 from tgbot.handlers.user import register_user
 from tgbot.middlewares.environment import EnvironmentMiddleware
+from tgbot.models import models as db
+
 
 logger = logging.getLogger(__name__)
+config = load_dotenv()
+
+
+async def start():
+    db.sql_start()
+    logger.info("Бот запущен")
+    logger.info("Создание таблиц в базе данных выполнено")
 
 
 def register_all_middlewares(dp, config):
@@ -36,10 +46,11 @@ async def main():
         format=u'%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s',
     )
     logger.info("Starting bot")
-    config = load_config(".env")
+    token = os.getenv('BOT_TOKEN')
+    use_redis = False
 
-    storage = RedisStorage2() if config.tg_bot.use_redis else MemoryStorage()
-    bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
+    storage = RedisStorage2() if use_redis else MemoryStorage()
+    bot = Bot(token=token, parse_mode='HTML')
     dp = Dispatcher(bot, storage=storage)
 
     bot['config'] = config
@@ -50,6 +61,7 @@ async def main():
 
     # start
     try:
+        await start()
         await dp.start_polling()
     finally:
         await dp.storage.close()
