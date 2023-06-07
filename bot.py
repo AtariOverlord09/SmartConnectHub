@@ -221,7 +221,7 @@ async def send_polly(bot):
                 type='regular',
                 is_anonymous=True,
             )
-
+            
         except Exception as e:
             logger.error(e)
 
