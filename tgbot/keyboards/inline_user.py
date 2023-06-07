@@ -103,7 +103,7 @@ async def get_interest_menu():
 
 async def get_experience_menu():
     menu = FirstStartMenu()
-    menu.row_width = 11
+    menu.row_width = 5
 
     menu.insert_button('0', 'experience#0')
     menu.insert_button('1', 'experience#1')
@@ -134,7 +134,8 @@ async def get_showdown_menu():
     menu.add_button('Так, стоп, ещё раз кто ты?😯', 'showdown#who_are_you')
     menu.add_button('Что происходит⁉️', 'showdown#where_am_i')
     menu.add_button('Я еще осмотрюсь здесь...👀', 'showdown#menu')
-    menu.add_button('Я готов присоединиться к сообществу!😉', 'showdown#go!')
+    menu.add_button('Я готов присоединиться к сообществу!😉', 'showdown#join_to_community')
+    menu.add_button('О проекте📠', 'showdown#about_project')
 
     return menu
 
@@ -151,7 +152,25 @@ async def get_main_menu():
     menu = FirstStartMenu()
 
     menu.add_button('Присоединиться к сообществу!', 'menu#join_to_community')
-    menu.add_button('Заполнить анкету заново', 'monitoring')
-    menu.add_button('Служба поддержки', 'statistics')
+    menu.add_button('Заполнить анкету заново', 'menu#fill_form_again')
+    menu.add_button('Служба поддержки', 'menu#support')
+
+    return menu
+
+
+async def get_support_menu():
+    menu = InlineKeyboardMarkup()
+
+    menu.add(InlineKeyboardButton(text='Задать вопрос', callback_data='support#ask'))
+    menu.add(InlineKeyboardButton('Связаться с администратором', url='https://t.me/GelliToMellopy'))
+    menu.add(InlineKeyboardButton('Назад', callback_data='support#back'))
+
+    return menu
+
+
+async def get_join_community_menu():
+    menu = InlineKeyboardMarkup()
+
+    menu.add(InlineKeyboardButton('Присоедениться!🚀', url='https://t.me/+_X71aO4v9WVjMmQ6'))
 
     return menu

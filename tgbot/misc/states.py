@@ -14,3 +14,21 @@ class FSMStart(StatesGroup):
     introduce_part2 = State()
     the_path = State()
     the_path_part2 = State()
+    main_menu = State()
+    fill_form_again = State()
+    fill_form_again_part2 = State()
+    fill_form_again_part3 = State()
+    fill_form_again_part4 = State()
+    fill_form_again_part5 = State()
+    fill_form_again_part6 = State()
+    fill_form_over = State()
+    support = State()
+    supp_question = State()
+    join_to_community = State()
+    about_project = State()
+    about_project2 = State()
+
+
+class FSMAdmin(StatesGroup):
+    admin_question = State()
+    support_contact = State()
